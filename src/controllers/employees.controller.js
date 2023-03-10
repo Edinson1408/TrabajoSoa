@@ -3,8 +3,14 @@ import { pool } from "../db.js";
 
 
 export const getEmployess =  async(req,res)=> {
-     const [rows] =await pool.query('SELECT * FROM employee ')
-    res.json(rows)
+    try {
+        const [rows] =await pool.query('SELECT * FROM employee ')
+        res.json(rows)
+    } catch (error) {
+        return res.status(500).json({
+            message:"No se pudo obtener usuarios"
+        })
+    }
 }
 
 
@@ -22,13 +28,18 @@ export const postEmployess = async (req,res)=>{
 
 
 export const getEmploye = async (req,res)=>{
-    const id =req.params.id;
-    const [rows] =await pool.query('SELECT * FROM employee WHERE id=? ',[id])
-    if (rows.length<=0) return res.status(404).json({
-        message:"Empleado no encontrado"
-    })
-    
-    res.json(rows[0])  
+   try {
+        const id =req.params.id;
+        const [rows] =await pool.query('SELECT * FROM employee WHERE id=? ',[id])
+        if (rows.length<=0) return res.status(404).json({
+            message:"Empleado no encontrado"
+        })    
+        res.json(rows[0])  
+   } catch (error) {
+        return res.status(500).json({
+            message:"Se a generado un error"
+        })
+   }
 }
 
 export const putEmployees = async (req,res)=>{

@@ -6,5 +6,5 @@ export const pool=createPool({
     user:'root',
     password:'1234',
     port:'3306',
-    database:'companydb'
+    database:'hotel_oasis'
 });
